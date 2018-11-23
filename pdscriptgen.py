@@ -1,5 +1,5 @@
 import sys
-import re
+import regex
 
 def assign_to_fc(d,k,x,y):
     key = w
@@ -29,7 +29,7 @@ arrange = arrangeInput.readline()
 
 
 
-bpm = int(re.search('bpm ?= ?(\d*)', arrangeInput).group('1'))
+bpm = int(regex.search('bpm ?= ?(\d*)', arrangeInput).group('1'))
 first = list(patterns.keys())[0]
 gap = convert_bpm_to_ms(bpm)
 
@@ -37,7 +37,7 @@ gap = convert_bpm_to_ms(bpm)
 # instrument tag and paremeters
 with open(sys.argv[1]) as f:
     read_data = f.read()
-    regExp = re.findall('(n?seq):(\w*)\n\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?', read_data)
+    regExp = regex.findall('(n?seq):(\w*)\n\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?', read_data)
     instr = {}
     for i in regExp:
         x = regExp[i]
