@@ -44,7 +44,7 @@ with open(sys.argv[1]) as f:
         for j in range(2,6,2):
             # faltou testar se as strings são válidas
             tl = []
-            tl.append((x[j],x[j+1])
+            tl.append((x[j],x[j+1]))
         assign_to_fc(instr, x[1], x[0], tl)
         tl.clear()
 
