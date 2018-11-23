@@ -62,7 +62,7 @@ for i in instr:
             for k in exp:
                 at[1] = exp.group('head') + (exp.group('multi') * exp.group('inner')) + exp.group('tail')
                 brackets = regex.search('(\[|\])', pattern)
-                if mt == None:
+                if brackets == None:
                     test = 0
 
                  
