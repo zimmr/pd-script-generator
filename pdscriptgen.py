@@ -6,14 +6,17 @@ def assign_to_fc(d,k,x,y):
     d[key] = [x, (y, z)]
     return d[key]
 
+
 def convert_bpm_to_ms(x):
     return x / 15000
+
 
 def print_gap(gap, x, y):
     if x == y:
         return gap
     else:
         return 0
+
 
 # create patterns dict and add patterns to keys
 patterns = {}
@@ -27,12 +30,9 @@ with open(sys.argv[1]) as input:
 arrangeInput = open(sys.argv[2], "r")
 arrange = arrangeInput.readline()
 
-
-
 bpm = int(regex.search('bpm ?= ?(\d*)', arrangeInput).group('1'))
 first = list(patterns.keys())[0]
 gap = convert_bpm_to_ms(bpm)
-
 
 # instrument tag and paremeters
 with open(sys.argv[1]) as f:
@@ -48,7 +48,24 @@ with open(sys.argv[1]) as f:
         assign_to_fc(instr, x[1], x[0], tl)
         tl.clear()
 
-                      
+
+# preparing stored patterns
+test = 1
+for i in instr:
+    ev = instr[i]
+    it = ev(1)
+    for j in it:
+        at = it[j]
+        pattern = at[1]
+        while test:
+            exp = regex.findall("(?'head'(\w*\d*\s*)*(?!\*))(?'multi'\d*)\*\[(?'inner'(\w*\d*\s*)*(?:[^[]]|(?R))*)\](?'tail'(\w*\d*\s*)*(?!\*))", pattern)
+            for k in exp:
+                at[1] = exp.group('head') + (exp.group('multi') * exp.group('inner')) + exp.group('tail')
+                brackets = regex.search('(\[|\])', pattern)
+                if mt == None:
+                    test = 0
+
+                 
 # print ordered patterns
 for i in range(16):
     for x, y in patterns.items():
