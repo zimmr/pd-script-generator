@@ -50,13 +50,13 @@ with open(sys.argv[1]) as f:
 
 
 # preparing stored patterns
-test = 1
 for i in instr:
     ev = instr[i]
     it = ev(1)
     for j in it:
         at = it[j]
         pattern = at[1]
+        test = 1
         while test:
             exp = regex.findall("(?'head'(\w*\d*\s*)*(?!\*))(?'multi'\d*)\*\[(?'inner'(\w*\d*\s*)*(?:[^[]]|(?R))*)\](?'tail'(\w*\d*\s*)*(?!\*))", pattern)
             for k in exp:
@@ -65,7 +65,7 @@ for i in instr:
                 if brackets == None:
                     test = 0
 
-                 
+
 # print ordered patterns
 for i in range(16):
     for x, y in patterns.items():
