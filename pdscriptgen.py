@@ -2,7 +2,7 @@ import sys
 import regex
 
 def assign_to_fc(d,k,x,y):
-    key = w
+    key = k
     d[key] = [x, (y, z)]
     return d[key]
 
@@ -49,14 +49,14 @@ with open(sys.argv[1]) as f:
         x = regExp[i]
         for j in range(2,6,2):
             # faltou testar se as strings são válidas
-            tl = []
-            tl.append((x[j],x[j+1]))
-        assign_to_fc(instr, x[1], x[0], tl) #isso não vai dar certo
-        tl.clear()
+            tsil = []
+            tsil.append((x[j],[x[j+1]]))
+        assign_to_fc(instr, x[1], x[0], tsil)
+        tsil.clear()
 
 
-instruments = instr.keys()
-song = {}
+#instruments = instr.keys()
+#arrangement = {}
 
 # preparing stored patterns
 for i in instr:
@@ -80,7 +80,8 @@ for i in instr:
         for i in range(len(result)):
             tulip = result[i]
             tsil.append(tulip[0])
-            assign_to_dict(song,instruments[i],at[0],tsil))
+        at[1] = tsil
+        tsil.clear()
 
 
 # print ordered patterns
