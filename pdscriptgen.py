@@ -7,10 +7,10 @@ def assign_to_fc(d,k,x,y):
     return d[key]
 
 
-def assign_to_dict(d,k1,k2,x):
-    key = (k1,k2)
-    d[key] = x
-    return d[key]
+#def assign_to_dict(d,k1,k2,x):
+#    key = (k1,k2)
+#    d[key] = x
+#    return d[key]
 
 
 def convert_bpm_to_ms(x):
@@ -44,23 +44,23 @@ gap = convert_bpm_to_ms(bpm)
 with open(sys.argv[1]) as f:
     read_data = f.read()
     regExp = regex.findall('(n?seq):(\w*)\n\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?', read_data)
-    instr = {}
+    arrangement = {}
     for i in regExp:
         x = regExp[i]
         for j in range(2,6,2):
             # faltou testar se as strings são válidas
             tsil = []
             tsil.append((x[j],[x[j+1]]))
-        assign_to_fc(instr, x[1], x[0], tsil)
+        assign_to_fc(arrangement, x[1], x[0], tsil)
         tsil.clear()
 
 
-#instruments = instr.keys()
+#instruments = arrangement.keys()
 #arrangement = {}
 
 # preparing stored patterns
-for i in instr:
-    ev = instr[i]
+for i in arrangement:
+    ev = arrangement[i]
     it = ev(1)
     for j in it:
         at = it[j]
@@ -78,8 +78,8 @@ for i in instr:
         tsil = []
         result = regex.findall('(\S*[^\s])',at[i])
         for i in range(len(result)):
-            tulip = result[i]
-            tsil.append(tulip[0])
+            #tulip = result[i]
+            tsil.append(result[i])
         at[1] = tsil
         tsil.clear()
 
