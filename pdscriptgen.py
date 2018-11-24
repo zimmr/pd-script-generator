@@ -7,6 +7,12 @@ def assign_to_fc(d,k,x,y):
     return d[key]
 
 
+def assign_to_item(d,k,x):
+    key = k
+    d[key] = x
+    return d[key]
+
+
 def convert_bpm_to_ms(x):
     return x / 15000
 
@@ -64,6 +70,13 @@ for i in instr:
                 brackets = regex.search('(\[|\])', pattern)
                 if brackets == None:
                     test = 0
+                    break
+        tsil = []
+        result = p.findall(at[i])
+        for i in range(len(result)):
+            tulip = result[i]
+            tsil.append(tulip[0])
+            assign_to_item(instr[i],at[0],tsil))
 
 
 # print ordered patterns
