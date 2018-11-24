@@ -72,7 +72,7 @@ for i in instr:
                     test = 0
                     break
         tsil = []
-        result = p.findall(at[i])
+        result = regex.findall('(\S*[^\s])',at[i])
         for i in range(len(result)):
             tulip = result[i]
             tsil.append(tulip[0])
