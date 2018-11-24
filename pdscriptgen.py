@@ -7,8 +7,8 @@ def assign_to_fc(d,k,x,y):
     return d[key]
 
 
-def assign_to_item(d,k,x):
-    key = k
+def assign_to_dict(d,k1,k2,x):
+    key = (k1,k2)
     d[key] = x
     return d[key]
 
@@ -51,9 +51,12 @@ with open(sys.argv[1]) as f:
             # faltou testar se as strings são válidas
             tl = []
             tl.append((x[j],x[j+1]))
-        assign_to_fc(instr, x[1], x[0], tl)
+        assign_to_fc(instr, x[1], x[0], tl) #isso não vai dar certo
         tl.clear()
 
+
+instruments = instr.keys()
+song = {}
 
 # preparing stored patterns
 for i in instr:
@@ -61,10 +64,11 @@ for i in instr:
     it = ev(1)
     for j in it:
         at = it[j]
-        pattern = at[1]
+        #pattern = at[1]
+        #dictName = at[0]
         test = 1
         while test:
-            exp = regex.findall("(?'head'(\w*\d*\s*)*(?!\*))(?'multi'\d*)\*\[(?'inner'(\w*\d*\s*)*(?:[^[]]|(?R))*)\](?'tail'(\w*\d*\s*)*(?!\*))", pattern)
+            exp = regex.findall("(?'head'(\w*\d*\s*)*(?!\*))(?'multi'\d*)\*\[(?'inner'(\w*\d*\s*)*(?:[^[]]|(?R))*)\](?'tail'(\w*\d*\s*)*(?!\*))",at[1]) 
             for k in exp:
                 at[1] = exp.group('head') + (exp.group('multi') * exp.group('inner')) + exp.group('tail')
                 brackets = regex.search('(\[|\])', pattern)
@@ -76,7 +80,7 @@ for i in instr:
         for i in range(len(result)):
             tulip = result[i]
             tsil.append(tulip[0])
-            assign_to_item(instr[i],at[0],tsil))
+            assign_to_dict(song,instruments[i],at[0],tsil))
 
 
 # print ordered patterns
