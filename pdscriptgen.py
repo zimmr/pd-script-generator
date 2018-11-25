@@ -7,12 +7,6 @@ def assign_to_fc(d,k,x,y):
     return d[key]
 
 
-#def assign_to_dict(d,k1,k2,x):
-#    key = (k1,k2)
-#    d[key] = x
-#    return d[key]
-
-
 def convert_bpm_to_ms(x):
     return x / 15000
 
@@ -33,16 +27,16 @@ with open(sys.argv[1]) as input:
         patterns[key] = line[2:len(line)]
 
 
-arrangeInput = open(sys.argv[2], "r")
-arrange = arrangeInput.readline()
+#arrangeInput = open(sys.argv[2], "r")
+#arrange = arrangeInput.readline()
 
-bpm = int(regex.search('bpm ?= ?(\d*)', arrangeInput).group('1'))
-first = list(patterns.keys())[0]
-gap = convert_bpm_to_ms(bpm)
 
 # instrument tag and paremeters
-with open(sys.argv[1]) as f:
+with open(sys.argv[2]) as f:
     read_data = f.read()
+    bpm = int(regex.search('bpm ?= ?(\d*)', read_data).group('1'))
+    first = list(patterns.keys())[0]
+    gap = convert_bpm_to_ms(bpm)
     regExp = regex.findall('(n?seq):(\w*)\n\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?', read_data)
     arrangement = {}
     for i in regExp:
@@ -57,6 +51,8 @@ with open(sys.argv[1]) as f:
 
 #instruments = arrangement.keys()
 #arrangement = {}
+sizes = []
+tsil = []
 
 # preparing stored patterns
 for i in arrangement:
@@ -64,8 +60,6 @@ for i in arrangement:
     it = ev(1)
     for j in it:
         at = it[j]
-        #pattern = at[1]
-        #dictName = at[0]
         test = 1
         while test:
             exp = regex.findall("(?'head'(\w*\d*\s*)*(?!\*))(?'multi'\d*)\*\[(?'inner'(\w*\d*\s*)*(?:[^[]]|(?R))*)\](?'tail'(\w*\d*\s*)*(?!\*))",at[1]) 
@@ -75,18 +69,63 @@ for i in arrangement:
                 if brackets == None:
                     test = 0
                     break
-        tsil = []
         result = regex.findall('(\S*[^\s])',at[i])
         for i in range(len(result)):
-            #tulip = result[i]
             tsil.append(result[i])
         at[1] = tsil
+        sizes.append(tsil)
         tsil.clear()
 
 
-# print ordered patterns
-for i in range(16):
-    for x, y in patterns.items():
-        pgap = print_gap(gap, x, first)
-        print(pgap, inst, x, y[i], ';')
-    print('\n')
+with open(sys.argv(2),w) as output:
+    for m in range(max(sizes)):
+        for i in arrangement: 
+            ev = arrangement[i]
+            it = ev(1)
+        for j in it:
+            at = it[j]
+            patternCall = at[1]
+            if m > len(patternCall):
+                if patternCall[m] == 'x':
+                   break
+                 else:
+                   if ev[0] == seq:
+                       if at[0l == 'r':
+                           paramTag = 'pattern'
+                           if patternCall[m] == 'ø':
+                               patternToPrint = '0'*16
+                           else:
+                               patternToPrint = patterns[i]
+                       elif at[0] == '\v':
+                           paramTag = 'vpattern'
+                           if patternCall[m] == 'ø':
+                               patternToPrint = '100'*16
+                           else:
+                               patternToPrint = patterns[i]
+                       elif at[0] == 's':
+                           paramTag = 'rpattern'
+                           if patternCall[m] == 'ø':
+                               patternToPrint = '0'*16
+                           else:
+                               patternToPrint = patterns[i]
+                   elif ev[0] == nseq:
+                       if at[0l == '\n':
+                           paramTag = 'note-pattern'
+                           if patternCall[m] == 'ø':
+                               patternToPrint = '0'*16
+                           else:
+                               patternToPrint = patterns[i]
+                       elif at[0] == '\o':
+                           paramTag = 'oct-pattern'
+                           if patternCall[m] == 'ø':
+                               patternToPrint = '4'*16
+                           else:
+                               patternToPrint = patterns[i]
+                       elif at[0] == '\v':
+                           paramTag = 'vel-pattern'
+                           if patternCall[m] == 'ø':
+                               patternToPrint = '100'*16
+                           else:
+                               patternToPrint = patterns[i]
+                   output.write("{0} {1}-{2} {3};".format(gapToPrint,paramTag,instrName,patternToPrint))   
+
