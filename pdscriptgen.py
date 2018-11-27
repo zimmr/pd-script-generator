@@ -48,8 +48,10 @@ with open(sys.argv[2]) as f:
     for i in range(len(regExp)):
         x = regExp[i]
         instruments[x[1]] = x[0]
+        arrangement[x[1]] = {}
         for j in range(2, 6, 2):
-            arrangement[x[j]] = x[j+1]
+            arrangement[x[1]][x[j]] = x[j+1]
+#            print(x[j],'/',arrangement[x[1]])
 
 
 # preparing stored patterns
@@ -57,9 +59,10 @@ with open(sys.argv[2]) as f:
 tsil = []
 sizes = []
 
-for i in arrangement:
+for i in arrangement.keys():
+    teste = arrangement[i]
     for j in arrangement[i]:
-        print(i,'/',j)
+        #print(i,'/',j, '/', arrangement)
         ev = arrangement[i][j]
         test = 1
         while test:
@@ -86,10 +89,12 @@ with open(sys.argv[3], "w") as output:
             for j in iv:
                 parameter = j
                 pv = iv[j]
-                result = regex.findall('(\w*)\s?', pv)
-                for p in range(len(result)):
-                    call = result[p]
-                    if m < len(result) and call != '':
+                #print(pv,'::::',iv, ':::', j)
+                #result = regex.findall('(\w*)\s?', pv)
+                for p in range(len(pv)):
+                    call = pv[p]
+                    print(pv, '::', pv[p])
+                    if m < len(pv) and call != '':
                         if call == 'x':
                            break
                         else:
