@@ -86,9 +86,14 @@ for i in arrangement.keys():
         tsil = []
 
 
+print(sizes)
+print(max(sizes))
+
+#print(patterns)
+
 # writing patterns to output file
 # pattern needs to be converted into a single string before printing
-# this section may need to be rewritten
+# variable 'first' not set correctly. not printing gaps on first elements of block
 with open(sys.argv[3], "w") as output:
     for m in range(max(sizes)):
         for i in arrangement: 
@@ -97,54 +102,54 @@ with open(sys.argv[3], "w") as output:
             for j in iv:
                 parameter = j
                 pv = iv[j]
+                #print(j,'//',m)
                 #print(pv,'::::',iv, ':::', j)
                 #result = regex.findall('(\w*)\s?', pv)
-                for p in range(len(pv)):
-                    call = pv[p]
-                    print(pv, '::', pv[p])
-                    if m < len(pv) and call != '':
-                        if call == 'x':
-                           break
-                        else:
-                           if instruments[i] == 'seq':
-                               if parameter == 'r':
-                                   parameter = 'pattern'
-                                   if call == '0':
-                                       patternToPrint = '0 ' * 16
-                                   else:
-                                       patternToPrint = patterns[call]
-                               elif parameter == 'v':
-                                   parameter = 'vpattern'
-                                   if call == '0':
-                                       patternToPrint = '100 ' * 16
-                                   else:
-                                       patternToPrint = patterns[call]
-                               elif parameter == 's':
-                                   parameter = 'rpattern'
-                                   if call == '0':
-                                       patternToPrint = '0 ' * 16
-                                   else:
-                                       patternToPrint = patterns[call]
-                           elif instruments[i] == 'nseq':
-                               if parameter == 'n':
-                                   parameter = 'note-pattern'
-                                   if call == '0':
-                                       patternToPrint = '0 ' * 16
-                                   else:
-                                       patternToPrint = patterns[call]
-                               elif parameter == 'o':
-                                   parameter = 'oct-pattern'
-                                   if call == '0':
-                                       patternToPrint = '4 ' * 16
-                                   else:
-                                       patternToPrint = patterns[call]
-                               elif parameter == 'v':
-                                   parameter = 'vel-pattern'
-                                   if call == '0':
-                                       patternToPrint = '100 ' * 16
-                                   else:
-                                       patternToPrint = patterns[call]
-                           instrName = i
-                           gapToPrint = print_gap(gap, m, first) 
-                           output.write("{0} {1}-{2} {3};\n".format(gapToPrint, parameter, instrName, patternToPrint))   
-
+#                for p in range(len(pv)):
+                #print(pv,'/',p, call)
+                if m < len(pv):
+                    call = pv[m]
+                   # print(m,'//', pv[m], '//', instruments[i])
+                    if call == 'x':
+                       break
+                    else:
+                       if instruments[i] == 'seq':
+                           if parameter == 'r':
+                               parameter = 'pattern'
+                               if call == '0':
+                                   patternToPrint = '0 ' * 16
+                               else:
+                                   patternToPrint = patterns[call]
+                           elif parameter == 'v':
+                               parameter = 'vpattern'
+                               if call == '0':
+                                   patternToPrint = '100 ' * 16
+                               else:
+                                   patternToPrint = patterns[call]
+                           elif parameter == 's':
+                               parameter = 'rpattern'
+                               if call == '0':
+                                   patternToPrint = '0 ' * 16
+                               else:
+                                   patternToPrint = patterns[call]
+                       elif instruments[i] == 'nseq':
+                           if parameter == 'n':
+                               parameter = 'note-pattern'
+                               if call == '0':
+                                   patternToPrint = '0 ' * 16
+                               else:
+                                   patternToPrint = patterns[call]
+                           elif parameter == 'o':
+                               parameter = 'oct-pattern'
+                               if call == '0':
+                                   patternToPrint = '4 ' * 16
+                               else:
+                                   patternToPrint = patterns[call]
+                           elif parameter == 'v':
+                               parameter = 'vel-pattern'
+                               if call == '0':
+                                   patternToPrint = '100 ' * 16
+                               else:
+                                   patternToPrint = patterns[call]
+                       gapToPrint = print_gap(gap, m, first) 
+                       output.write("{0} {1}-{2} {3};\n".format(gapToPrint, parameter, instrName, patternToPrint))   
