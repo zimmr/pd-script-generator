@@ -19,6 +19,12 @@ def build_string(head, multi, inner, tail):
 def convert_bpm_to_ms(x):
     return x / 15000
 
+def convert_list_to_str(x):
+    p = ''
+    for item in x:
+        p += i + ' '
+    return p
+
 def print_gap(gap, x, y):
     if x == y:
         return gap
@@ -81,6 +87,8 @@ for i in arrangement.keys():
 
 
 # writing patterns to output file
+# pattern needs to be converted into a single string before printing
+# this section may need to be rewritten
 with open(sys.argv[3], "w") as output:
     for m in range(max(sizes)):
         for i in arrangement: 
