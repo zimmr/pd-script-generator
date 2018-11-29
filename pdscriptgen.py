@@ -22,7 +22,9 @@ def convert_bpm_to_ms(x):
 def convert_list_to_str(x):
     p = ''
     for item in x:
-        p += item + ' '
+        rs = regex.match('(\w*)[^\n]', str(item))
+        if rs != None:
+            p += rs[0] + ' '
     return p
 
 def print_gap(gap, x, w, y, z):
