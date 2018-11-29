@@ -17,7 +17,7 @@ def build_string(head, multi, inner, tail):
         return head 
 
 def convert_bpm_to_ms(x):
-    return x / 15000
+    return (15000 / x) * 16
 
 def convert_list_to_str(x):
     p = ''
@@ -25,9 +25,9 @@ def convert_list_to_str(x):
         p += i + ' '
     return p
 
-def print_gap(gap, x, y):
-    if x == y:
-        return gap
+def print_gap(gap, x, w, y, z):
+    if x == y and w == z:
+        return '\n' + str(gap)
     else:
         return 0
 
@@ -46,7 +46,6 @@ with open(sys.argv[1], "r") as input:
 with open(sys.argv[2]) as f:
     read_data = f.read()
     bpm = int(regex.search('bpm ?= ?(\d*)', read_data).group(1))
-    first = list(patterns.keys())[0]
     gap = convert_bpm_to_ms(bpm)
     regExp = regex.findall('(n?seq):(\w*)\n\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?', read_data) # this regex can be shortened
     instruments = {}
@@ -86,8 +85,7 @@ for i in arrangement.keys():
         tsil = []
 
 
-print(sizes)
-print(max(sizes))
+print(convert_bpm_to_ms(bpm))
 
 #print(patterns)
 
@@ -97,6 +95,9 @@ print(max(sizes))
 with open(sys.argv[3], "w") as output:
     for m in range(max(sizes)):
         for i in arrangement: 
+            print(i)
+            first = list(arrangement.keys())[0]
+            firstParam = list(arrangement[i].keys())[0]
             instrName = i
             iv = arrangement[i]
             for j in iv:
@@ -113,6 +114,8 @@ with open(sys.argv[3], "w") as output:
                     if call == 'x':
                        break
                     else:
+                       gapToPrint = print_gap(gap, i, parameter, first, firstParam) 
+                       print(gap,'//',i,'//', first, '//', parameter, firstParam)
                        if instruments[i] == 'seq':
                            if parameter == 'r':
                                parameter = 'pattern'
@@ -151,5 +154,4 @@ with open(sys.argv[3], "w") as output:
                                    patternToPrint = '100 ' * 16
                                else:
                                    patternToPrint = patterns[call]
-                       gapToPrint = print_gap(gap, m, first) 
                        output.write("{0} {1}-{2} {3};\n".format(gapToPrint, parameter, instrName, patternToPrint))   
