@@ -22,7 +22,7 @@ def convert_bpm_to_ms(x):
 def convert_list_to_str(x):
     p = ''
     for item in x:
-        p += i + ' '
+        p += item + ' '
     return p
 
 def print_gap(gap, x, w, y, z):
@@ -56,7 +56,6 @@ with open(sys.argv[2]) as f:
         arrangement[x[1]] = {}
         for j in range(2, 6, 2):
             arrangement[x[1]][x[j]] = x[j+1]
-#            print(x[j],'/',arrangement[x[1]])
 
 
 # preparing stored patterns
@@ -67,7 +66,6 @@ sizes = []
 for i in arrangement.keys():
     teste = arrangement[i]
     for j in arrangement[i]:
-        #print(i,'/',j, '/', arrangement)
         ev = arrangement[i][j]
         test = 1
         while test:
@@ -85,17 +83,12 @@ for i in arrangement.keys():
         tsil = []
 
 
-print(convert_bpm_to_ms(bpm))
-
-#print(patterns)
-
 # writing patterns to output file
 # pattern needs to be converted into a single string before printing
 # variable 'first' not set correctly. not printing gaps on first elements of block
 with open(sys.argv[3], "w") as output:
     for m in range(max(sizes)):
         for i in arrangement: 
-            print(i)
             first = list(arrangement.keys())[0]
             firstParam = list(arrangement[i].keys())[0]
             instrName = i
@@ -103,55 +96,48 @@ with open(sys.argv[3], "w") as output:
             for j in iv:
                 parameter = j
                 pv = iv[j]
-                #print(j,'//',m)
-                #print(pv,'::::',iv, ':::', j)
-                #result = regex.findall('(\w*)\s?', pv)
-#                for p in range(len(pv)):
-                #print(pv,'/',p, call)
                 if m < len(pv):
                     call = pv[m]
-                   # print(m,'//', pv[m], '//', instruments[i])
                     if call == 'x':
                        break
                     else:
                        gapToPrint = print_gap(gap, i, parameter, first, firstParam) 
-                       print(gap,'//',i,'//', first, '//', parameter, firstParam)
                        if instruments[i] == 'seq':
                            if parameter == 'r':
                                parameter = 'pattern'
                                if call == '0':
                                    patternToPrint = '0 ' * 16
                                else:
-                                   patternToPrint = patterns[call]
+                                   patternToPrint = convert_list_to_str(patterns[call])
                            elif parameter == 'v':
                                parameter = 'vpattern'
                                if call == '0':
                                    patternToPrint = '100 ' * 16
                                else:
-                                   patternToPrint = patterns[call]
+                                   patternToPrint = convert_list_to_str(patterns[call])
                            elif parameter == 's':
                                parameter = 'rpattern'
                                if call == '0':
                                    patternToPrint = '0 ' * 16
                                else:
-                                   patternToPrint = patterns[call]
+                                   patternToPrint = convert_list_to_str(patterns[call])
                        elif instruments[i] == 'nseq':
                            if parameter == 'n':
                                parameter = 'note-pattern'
                                if call == '0':
                                    patternToPrint = '0 ' * 16
                                else:
-                                   patternToPrint = patterns[call]
+                                   patternToPrint = convert_list_to_str(patterns[call])
                            elif parameter == 'o':
                                parameter = 'oct-pattern'
                                if call == '0':
                                    patternToPrint = '4 ' * 16
                                else:
-                                   patternToPrint = patterns[call]
+                                   patternToPrint = convert_list_to_str(patterns[call])
                            elif parameter == 'v':
                                parameter = 'vel-pattern'
                                if call == '0':
                                    patternToPrint = '100 ' * 16
                                else:
-                                   patternToPrint = patterns[call]
+                                   patternToPrint = convert_list_to_str(patterns[call])
                        output.write("{0} {1}-{2} {3};\n".format(gapToPrint, parameter, instrName, patternToPrint))   
