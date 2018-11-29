@@ -59,6 +59,42 @@ with open(sys.argv[2]) as f:
             arrangement[x[1]][x[j]] = x[j+1]
 
 
+<<<<<<< HEAD
+bpm = int(regex.search('bpm ?= ?(\d*)', arrangeInput).group('1'))
+first = list(patterns.keys())[0]
+gap = convert_bpm_to_ms(bpm)
+=======
+# preparing stored patterns
+tsil = []
+sizes = []
+<<<<<<< HEAD
+for i in arrangement:
+    ev = arrangement[i]
+    paramList = ev[1]
+    for iterParam in range(len(paramList)):
+        it = paramList[iterParam]
+        for j in range(len(it)):
+            bt = it[j]
+            at = bt[1]
+            test = 1
+            lineEv = at[0]
+            while test:
+                exp = regex.search("(?<head>(\w*\s*)*(?!\*))((?<multi>\d*)\*\[(?<inner>(\w*\s*)*(?:[^[]]|(?R))*)\](?<tail>(\w*\s*)*(?!\*)))*", lineEv) 
+                #print[lineEv, exp]
+                at = build_string(exp.group('head'), exp.group('multi'), exp.group('inner'), exp.group('tail'))
+                brackets = regex.search('(\[|\])', at)
+                if brackets == None:
+                    test = 0
+                    break
+            result = regex.findall('(\S*[^\s])', at)
+            for i in range(len(result)):
+                tsil.append(result[i])
+            at = tsil
+            sizes.append(len(tsil))
+            tsil = []
+>>>>>>> dev
+=======
+
 for i in arrangement.keys():
     teste = arrangement[i]
     for j in arrangement[i]:
@@ -78,6 +114,7 @@ for i in arrangement.keys():
         sizes.append(len(tsil))
         tsil = []
 
+>>>>>>> dev
 
 # writing patterns to output file
 with open(sys.argv[3], "w") as output:
@@ -135,3 +172,31 @@ with open(sys.argv[3], "w") as output:
                                else:
                                    patternToPrint = convert_list_to_str(patterns[call])
                        output.write("{0} {1}-{2} {3};\n".format(gapToPrint, parameter, instrName, patternToPrint))   
+<<<<<<< HEAD
+
+<<<<<<< HEAD
+# instrument tag and paremeters
+with open(sys.argv[1]) as f:
+    read_data = f.read()
+    regExp = regex.findall('(n?seq):(\w*)\n\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?\t?(r|v|s|n|o)? ?=? ?(.*)\n?', read_data)
+    instr = {}
+    for i in regExp:
+        x = regExp[i]
+        for j in range(2,6,2):
+            # faltou testar se as strings são válidas
+            tl = []
+            tl.append((x[j],x[j+1])
+        assign_to_fc(instr, x[1], x[0], tl)
+        tl.clear()
+
+                      
+# print ordered patterns
+for i in range(16):
+    for x, y in patterns.items():
+        pgap = print_gap(gap, x, first)
+        print(pgap, inst, x, y[i], ';')
+    print('\n')
+=======
+>>>>>>> dev
+=======
+>>>>>>> dev
