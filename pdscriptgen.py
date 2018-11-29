@@ -44,7 +44,6 @@ with open(sys.argv[1], "r") as input:
 
 
 # instrument tag and paremeters
-#tsil = []
 with open(sys.argv[2]) as f:
     read_data = f.read()
     bpm = int(regex.search('bpm ?= ?(\d*)', read_data).group(1))
@@ -61,7 +60,6 @@ with open(sys.argv[2]) as f:
 
 
 # preparing stored patterns
-
 tsil = []
 sizes = []
 
@@ -86,8 +84,6 @@ for i in arrangement.keys():
 
 
 # writing patterns to output file
-# pattern needs to be converted into a single string before printing
-# variable 'first' not set correctly. not printing gaps on first elements of block
 with open(sys.argv[3], "w") as output:
     for m in range(max(sizes)):
         for i in arrangement: 
